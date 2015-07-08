@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotBits.Commands", "BotBits.Commands\BotBits.Commands.csproj", "{75B4FC09-ACB2-4CFF-8759-69555C717125}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotBits.Commands.Demo", "BotBits.Commands.Demo\BotBits.Commands.Demo.csproj", "{E8AC34C0-8A2F-4D3C-97EE-AD0A7313A22B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75B4FC09-ACB2-4CFF-8759-69555C717125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75B4FC09-ACB2-4CFF-8759-69555C717125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75B4FC09-ACB2-4CFF-8759-69555C717125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75B4FC09-ACB2-4CFF-8759-69555C717125}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8AC34C0-8A2F-4D3C-97EE-AD0A7313A22B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8AC34C0-8A2F-4D3C-97EE-AD0A7313A22B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8AC34C0-8A2F-4D3C-97EE-AD0A7313A22B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8AC34C0-8A2F-4D3C-97EE-AD0A7313A22B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
