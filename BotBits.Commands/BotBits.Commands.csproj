@@ -31,9 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BotBits">
-      <HintPath>..\packages\BotBits.1.3.1\lib\net40\BotBits.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="BotBits, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8d4a7b115348c43d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\BotBits.1.3.2\lib\net40\BotBits.dll</HintPath>
     </Reference>
     <Reference Include="PlayerIOClient">
       <HintPath>..\packages\PlayerIOClient-Signed.3.1.0\lib\PlayerIOClient.dll</HintPath>
@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ListeningBehavior.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="CommandAttribute.cs" />
     <Compile Include="Command.cs" />
@@ -58,11 +59,12 @@
     <Compile Include="CommandEvent.cs" />
     <Compile Include="ParsedCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\ExternalInvokeSource.cs" />
+    <Compile Include="Source\ConsoleInvokeSource.cs" />
     <Compile Include="Source\IInvokeSource.cs" />
     <Compile Include="Exceptions\InvalidInvokeSourceCommandException.cs" />
     <Compile Include="Source\InvokeSourceBase.cs" />
     <Compile Include="Source\InvokeSourceExtensions.cs" />
+    <Compile Include="Source\PlayerInvokeOrigin.cs" />
     <Compile Include="Source\PlayerInvokeSource.cs" />
     <Compile Include="Source\ReplyCallback.cs" />
   </ItemGroup>

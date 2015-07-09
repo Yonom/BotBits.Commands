@@ -14,6 +14,15 @@ namespace BotBits.Commands.Source
             return playerSource;
         }
 
+        public static ConsoleInvokeSource ToConsoleInvokeSource(this IInvokeSource source)
+        {
+            var consoleSource = source as ConsoleInvokeSource;
+            if (consoleSource == null)
+                throw new InvalidInvokeSourceCommandException("This command is not available in game.");
+
+            return consoleSource;
+        }
+
         /// <summary>
         ///     Replies the specified chat message to the invoke source.
         /// </summary>

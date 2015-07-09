@@ -4,10 +4,13 @@
     {
         private readonly ReplyCallback _onReply;
 
-        protected InvokeSourceBase(ReplyCallback onReply)
+        protected InvokeSourceBase(string name, ReplyCallback onReply)
         {
+            this.Name = name;
             this._onReply = onReply;
         }
+
+        public string Name { get; private set; }
 
         public void Reply(string message)
         {

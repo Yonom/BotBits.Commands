@@ -15,7 +15,9 @@ namespace BotBits.Commands.Demo
 
             // Commands
             CommandsExtension.LoadInto(bot, '!', '.');
-            CommandLoader.Of(bot).LoadStatic<Program>();
+            CommandLoader
+                .Of(bot)
+                .LoadStatic<Program>();
 
             // Login
             ConnectionManager.Of(bot)
@@ -30,13 +32,14 @@ namespace BotBits.Commands.Demo
         [Command(0, "hi")]
         static void HiCommand(IInvokeSource source, ParsedCommand command)
         {
-            source.Reply("Hi");
+            var player = source.ToPlayerInvokeSource().Player;
+            source.Reply("Hello world {0}!", player.Username);
         }
 
         [EventListener]
         static void OnCommand(CommandEvent e)
         {
-            Console.WriteLine("Command run: " + e.Command.Value);
+            Console.WriteLine("Command run: " + e.Command.Type + " by " + e.Source.Name);
         }
     }
 }

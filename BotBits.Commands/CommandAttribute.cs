@@ -23,6 +23,7 @@ namespace BotBits.Commands
 
         public string Usage
         {
+            get { throw new NotSupportedException(); }
             set { this.Usages = new[] {value}; }
         }
 
@@ -31,15 +32,10 @@ namespace BotBits.Commands
         /// </summary>
         /// <param name="minArgs">The minimum required arguments.</param>
         /// <param name="names">The command name/names.</param>
-        public CommandAttribute(int minArgs, string[] names)
+        public CommandAttribute(int minArgs, params string[] names)
         {
             this._minArgs = minArgs;
             this._names = names;
-        }
-
-        public CommandAttribute(int minArgs, string name)
-            : this(minArgs, new[] {name})
-        {
         }
     }
 }

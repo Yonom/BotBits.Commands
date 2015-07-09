@@ -2,7 +2,7 @@
 
 namespace BotBits.Commands
 {
-    public class SyntaxCommandException : Exception
+    public class SyntaxCommandException : CommandException
     {
         public SyntaxCommandException(string message)
             : base(message)

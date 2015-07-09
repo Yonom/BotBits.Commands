@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BotBits.Commands.Source
+namespace BotBits.Commands
 {
     public class InvalidInvokeSourceCommandException : CommandException
     {

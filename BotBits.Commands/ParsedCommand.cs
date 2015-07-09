@@ -28,6 +28,7 @@ namespace BotBits.Commands
             get { return this.Args.Length; }
         }
 
+        [Pure]
         public int GetInt(int index)
         {
             try
@@ -44,6 +45,7 @@ namespace BotBits.Commands
             }
         }
 
+        [Pure]
         public string GetTrail(int index)
         {
             return String.Join(" ", this.Args.Skip(index));

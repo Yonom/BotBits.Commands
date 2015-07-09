@@ -10,6 +10,10 @@ namespace BotBits.Commands
     {
         public Command(string[] names, string[] usages, int minArgs, Action<IInvokeSource, ParsedCommand> callback)
         {
+            if (names == null) throw new ArgumentNullException("names");
+            if (usages == null) throw new ArgumentNullException("usages");
+            if (callback == null) throw new ArgumentNullException("callback");
+
             this.Names = names;
             this.Usages = usages;
             this.MinArgs = minArgs;
@@ -24,8 +28,8 @@ namespace BotBits.Commands
             var command = (CommandAttribute)method.GetCustomAttributes(typeof(CommandAttribute), false).FirstOrDefault();
             if (command == null) throw new ArgumentException("The given callback is not a command", "callback");
 
-            this.Names = command.Names;
-            this.Usages = command.Usages;
+            this.Names = command.Names ?? new string[0];
+            this.Usages = command.Usages ?? new string[0];
             this.MinArgs = command.MinArgs;
         }
 

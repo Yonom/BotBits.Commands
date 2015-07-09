@@ -12,10 +12,11 @@ namespace BotBits.Commands
     /// </summary>
     public sealed class CommandManager : EventListenerPackage<CommandManager>, IEnumerable<Command>
     {
-        private readonly Dictionary<string, Command> _commands = new Dictionary<string, Command>();
+        private readonly Dictionary<string, Command> _commands = new Dictionary<string, Command>(StringComparer.OrdinalIgnoreCase);
         private readonly object _lockObj = new object();
 
         public char[] CommandPrefixes { get; internal set; }
+        public ListeningBehavior ListeningBehavior { get; internal set; }
 
         public void ReadNextConsoleCommand()
         {
@@ -23,7 +24,7 @@ namespace BotBits.Commands
             if (text == null) return;
 
             var cmd = new ParsedCommand(text);
-            var source = new ExternalInvokeSource("Console", Console.WriteLine);
+            var source = new ConsoleInvokeSource(Console.WriteLine);
             new CommandEvent(source, cmd)
                 .RaiseIn(this.BotBits);
         }
@@ -31,15 +32,36 @@ namespace BotBits.Commands
         [EventListener(EventPriority.High)]
         private void OnChat(ChatEvent e)
         {
-            if (CommandPrefixes.Contains(e.Text[0]))
+            if (!this.ListeningBehavior.HasFlag(ListeningBehavior.Chat)) return;
+
+            if (this.CommandPrefixes.Contains(e.Text[0]))
             {
                 var cmd = new ParsedCommand(e.Text.Substring(1));
-                var source = new PlayerInvokeSource(e.Player,
+                var source = new PlayerInvokeSource(e.Player, PlayerInvokeOrigin.Chat, 
                     msg => Chat.Of(this.BotBits).Say(msg));
                 new CommandEvent(source, cmd)
                     .RaiseIn(this.BotBits);
             }
         }
+
+        [EventListener(EventPriority.High)]
+        private void OnPrivateMessage(PrivateMessageEvent e)
+        {
+            if (!this.ListeningBehavior.HasFlag(ListeningBehavior.PrivateMessage)) return;
+
+            if (CommandPrefixes.Contains(e.Message[0]))
+            {
+                var player = Players.Of(this.BotBits).FromUsername(e.Username).FirstOrDefault();
+                if (player == null) return;
+
+                var cmd = new ParsedCommand(e.Message.Substring(1));
+                var source = new PlayerInvokeSource(player, PlayerInvokeOrigin.PrivateMessage, 
+                    msg => Chat.Of(this.BotBits).PrivateMessage(player, msg));
+                new CommandEvent(source, cmd)
+                    .RaiseIn(this.BotBits);
+            }
+        }
+        
         
         [EventListener(EventPriority.High)]
         private void OnCommand(CommandEvent e)
