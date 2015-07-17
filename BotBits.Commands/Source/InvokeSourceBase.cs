@@ -1,4 +1,4 @@
-﻿namespace BotBits.Commands.Source
+﻿namespace BotBits.Commands
 {
     public abstract class InvokeSourceBase : IInvokeSource
     {

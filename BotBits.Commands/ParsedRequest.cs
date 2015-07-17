@@ -6,9 +6,9 @@ using JetBrains.Annotations;
 namespace BotBits.Commands
 {
     [DebuggerDisplay("Value = {Value}")]
-    public class ParsedCommand
+    public class ParsedRequest
     {
-        public ParsedCommand([NotNull] string value)
+        public ParsedRequest([NotNull] string value)
         {
             if (value == null)
                 throw new ArgumentNullException("value");

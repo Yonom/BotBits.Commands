@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace BotBits.Commands.Source
+namespace BotBits.Commands
 {
     [DebuggerDisplay("Name = {Name}")]
     public class ConsoleInvokeSource : InvokeSourceBase

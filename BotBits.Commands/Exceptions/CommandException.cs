@@ -7,18 +7,23 @@ namespace BotBits.Commands
     /// </summary>
     public class CommandException : Exception
     {
-        public CommandException()
+        public bool Ignored { get; private set; }
+
+        public CommandException(bool ignored = false)
         {
+            this.Ignored = ignored;
         }
 
-        public CommandException(string message)
+        public CommandException(string message, bool ignored = false)
             : base(message)
         {
+            this.Ignored = ignored;
         }
 
-        public CommandException(string message, Exception innerException)
+        public CommandException(string message, Exception innerException, bool ignored = false)
             : base(message, innerException)
         {
+            this.Ignored = ignored;
         }
     }
 }

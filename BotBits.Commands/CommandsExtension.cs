@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BotBits.Commands
 {
@@ -11,8 +6,8 @@ namespace BotBits.Commands
     {
         private class Settings
         {
-            public char[] CommandPrefixes { get; set; }
-            public ListeningBehavior ListeningBehavior { get; set; }
+            public char[] CommandPrefixes { get; private set; }
+            public ListeningBehavior ListeningBehavior { get; private set; }
 
             public Settings(char[] commandPrefixes, ListeningBehavior listeningBehavior = ListeningBehavior.Both)
             {
@@ -28,20 +23,20 @@ namespace BotBits.Commands
             CommandManager.Of(client).ListeningBehavior = settings.ListeningBehavior;
         }
 
-        public static void LoadInto(BotBitsClient client, params char[] commandPrefixes)
+        public static bool LoadInto(BotBitsClient client, params char[] commandPrefixes)
         {
             if (commandPrefixes.Length == 0)
                 throw new ArgumentException("At least one command prefix must be provided.", "commandPrefixes");
             
-            LoadInto(client, new Settings(commandPrefixes));
+            return LoadInto(client, new Settings(commandPrefixes));
         }
 
-        public static void LoadInto(BotBitsClient client, ListeningBehavior listeningBehavior, params char[] commandPrefixes)
+        public static bool LoadInto(BotBitsClient client, ListeningBehavior listeningBehavior, params char[] commandPrefixes)
         {
             if (commandPrefixes.Length == 0)
                 throw new ArgumentException("At least one command prefix must be provided.", "commandPrefixes");
 
-            LoadInto(client, new Settings(commandPrefixes, listeningBehavior));
+            return LoadInto(client, new Settings(commandPrefixes, listeningBehavior));
         }
     }
 }

@@ -1,17 +1,15 @@
-﻿using BotBits.Commands.Source;
-
-namespace BotBits.Commands
+﻿namespace BotBits.Commands
 {
     public sealed class CommandEvent : Event<CommandEvent>
     {
-        public CommandEvent(IInvokeSource source, ParsedCommand command)
+        public CommandEvent(IInvokeSource source, ParsedRequest request)
         {
             this.Source = source;
-            this.Command = command;
+            this.Request = request;
         }
 
         public IInvokeSource Source { get; set; }
-        public ParsedCommand Command { get; set; }
+        public ParsedRequest Request { get; set; }
         public bool Handled { get; set; }
     }
 }

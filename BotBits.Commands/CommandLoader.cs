@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
-using BotBits.Commands.Source;
 
 namespace BotBits.Commands
 {
@@ -25,11 +24,11 @@ namespace BotBits.Commands
 
             if (parameters[0].ParameterType != typeof(IInvokeSource))
                 throw GetCommandEx(eventHandler, "First argument must be of type IInvokeSource.");
-            if (parameters[1].ParameterType != typeof(ParsedCommand))
+            if (parameters[1].ParameterType != typeof(ParsedRequest))
                 throw GetCommandEx(eventHandler, "Second argument must be of type ParsedCommand.");
 
-            var handler = (Action<IInvokeSource, ParsedCommand>)
-                Delegate.CreateDelegate(typeof(Action<IInvokeSource, ParsedCommand>), baseObj, eventHandler);
+            var handler = (Action<IInvokeSource, ParsedRequest>)
+                Delegate.CreateDelegate(typeof(Action<IInvokeSource, ParsedRequest>), baseObj, eventHandler);
 
             return () => CommandManager.Of(this.BotBits).Add(handler);
         }

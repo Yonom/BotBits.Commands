@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using BotBits.Commands.Source;
 using BotBits.Events;
 
 namespace BotBits.Commands
@@ -23,9 +22,9 @@ namespace BotBits.Commands
             var text = Console.ReadLine();
             if (text == null) return;
 
-            var cmd = new ParsedCommand(text);
+            var request = new ParsedRequest(text);
             var source = new ConsoleInvokeSource(Console.WriteLine);
-            new CommandEvent(source, cmd)
+            new CommandEvent(source, request)
                 .RaiseIn(this.BotBits);
         }
 
@@ -33,13 +32,15 @@ namespace BotBits.Commands
         private void OnChat(ChatEvent e)
         {
             if (!this.ListeningBehavior.HasFlag(ListeningBehavior.Chat)) return;
+            if (e.Player == Players.Of(this.BotBits).OwnPlayer) return;
 
             if (this.CommandPrefixes.Contains(e.Text[0]))
             {
-                var cmd = new ParsedCommand(e.Text.Substring(1));
+                var request = new ParsedRequest(e.Text.Substring(1));
                 var source = new PlayerInvokeSource(e.Player, PlayerInvokeOrigin.Chat, 
                     msg => Chat.Of(this.BotBits).Say(msg));
-                new CommandEvent(source, cmd)
+
+                new CommandEvent(source, request)
                     .RaiseIn(this.BotBits);
             }
         }
@@ -54,45 +55,54 @@ namespace BotBits.Commands
                 var player = Players.Of(this.BotBits).FromUsername(e.Username).FirstOrDefault();
                 if (player == null) return;
 
-                var cmd = new ParsedCommand(e.Message.Substring(1));
+                var cmd = new ParsedRequest(e.Message.Substring(1));
                 var source = new PlayerInvokeSource(player, PlayerInvokeOrigin.PrivateMessage, 
                     msg => Chat.Of(this.BotBits).PrivateMessage(player, msg));
+
                 new CommandEvent(source, cmd)
                     .RaiseIn(this.BotBits);
             }
         }
         
-        
         [EventListener(EventPriority.High)]
         private void OnCommand(CommandEvent e)
         {
-            Command cmd;
-            if (this.TryGetCommand(e.Command.Type, out cmd))
-            {
-                if (e.Handled)
-                {
-                    return;
-                }
-
-                e.Handled = true;
-                this.ExecuteCommand(cmd, e.Source, e.Command);
-            }
-        }
-
-        internal void ExecuteCommand(Command command, IInvokeSource source, ParsedCommand message)
-        {
             try
             {
-                if (message.Count < command.MinArgs)
-                    throw new SyntaxCommandException("Too few arguments. Correct usage: " + 
-                        this.GetUsageStr(command, message.Type));
+                Command cmd;
+                if (this.TryGetCommand(e.Request.Type, out cmd))
+                {
+                    if (e.Handled)
+                    {
+                        return;
+                    }
 
-                command.Callback(source, message);
+                    e.Handled = true;
+                    if (e.Request.Count < cmd.MinArgs)
+                        throw new SyntaxCommandException(
+                            "Too few arguments. Correct usage: " +
+                            this.GetUsageStr(cmd, e.Request.Type));
+
+                    cmd.Callback(e.Source, e.Request);
+                }
+                else
+                {
+                    throw new UnknownCommandException("Unknown command.");
+                }
             }
             catch (CommandException ex)
             {
-                source.Reply(ex.Message);
+                new CommandExceptionEvent(e.Source, e.Request, ex)
+                    .RaiseIn(this.BotBits);
             }
+        }
+
+        [EventListener(EventPriority.Lowest)]
+        private void OnCommandException(CommandExceptionEvent e)
+        {
+            if (e.Handled) return;
+
+            e.Source.Reply(e.Exception.Message);
         }
 
         private string GetUsageStr(Command command, string label)
@@ -134,7 +144,7 @@ namespace BotBits.Commands
         /// </summary>
         /// <param name="callback">The command.</param>
         /// <exception cref="System.ArgumentException">A command with the given name has already been registered.</exception> 
-        public void Add(Action<IInvokeSource, ParsedCommand> callback)
+        public void Add(Action<IInvokeSource, ParsedRequest> callback)
         {
             this.Add(new Command(callback));
         }

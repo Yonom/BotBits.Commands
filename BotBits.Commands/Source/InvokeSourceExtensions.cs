@@ -1,7 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 
-namespace BotBits.Commands.Source
+namespace BotBits.Commands
 {
     public static class InvokeSourceExtensions
     {

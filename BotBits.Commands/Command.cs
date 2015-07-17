@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BotBits.Commands.Source;
 
 namespace BotBits.Commands
 {
     public sealed class Command
     {
-        public Command(string[] names, string[] usages, int minArgs, Action<IInvokeSource, ParsedCommand> callback)
+        public Command(string[] names, string[] usages, int minArgs, Action<IInvokeSource, ParsedRequest> callback)
         {
             if (names == null) throw new ArgumentNullException("names");
             if (usages == null) throw new ArgumentNullException("usages");
@@ -20,7 +19,7 @@ namespace BotBits.Commands
             this.Callback = callback;
         }
 
-        internal Command(Action<IInvokeSource, ParsedCommand> callback)
+        internal Command(Action<IInvokeSource, ParsedRequest> callback)
         {
             this.Callback = callback;
 
@@ -39,6 +38,6 @@ namespace BotBits.Commands
 
         public int MinArgs { get; private set; }
 
-        public Action<IInvokeSource, ParsedCommand> Callback { get; private set; }
+        public Action<IInvokeSource, ParsedRequest> Callback { get; private set; }
     }
 }

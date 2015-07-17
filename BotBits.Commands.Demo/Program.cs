@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using BotBits.Commands.Source;
+using BotBits.Events;
 
 namespace BotBits.Commands.Demo
 {
@@ -20,9 +20,9 @@ namespace BotBits.Commands.Demo
                 .LoadStatic<Program>();
 
             // Login
-            ConnectionManager.Of(bot)
-                .EmailLogin("email", "pass")
-                .CreateJoinRoom("world");
+            //ConnectionManager.Of(bot)
+            //    .EmailLogin("email", "pass")
+            //    .CreateJoinRoom("world");
 
             // Console commands
             while (true) 
@@ -30,7 +30,7 @@ namespace BotBits.Commands.Demo
         }
 
         [Command(0, "hi")]
-        static void HiCommand(IInvokeSource source, ParsedCommand command)
+        static void HiCommand(IInvokeSource source, ParsedRequest request)
         {
             var player = source.ToPlayerInvokeSource().Player;
             source.Reply("Hello world {0}!", player.Username);
@@ -39,7 +39,7 @@ namespace BotBits.Commands.Demo
         [EventListener]
         static void OnCommand(CommandEvent e)
         {
-            Console.WriteLine("Command run: " + e.Command.Type + " by " + e.Source.Name);
+            Console.WriteLine("Command run: " + e.Request.Type + " by " + e.Source.Name);
         }
     }
 }
