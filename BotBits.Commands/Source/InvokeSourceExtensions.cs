@@ -5,20 +5,22 @@ namespace BotBits.Commands
 {
     public static class InvokeSourceExtensions
     {
-        public static PlayerInvokeSource ToPlayerInvokeSource(this IInvokeSource source)
+        public static PlayerInvokeSource ToPlayerInvokeSource(this IInvokeSource source, 
+            string errorMessage = "You must call this command as a player.")
         {
             var playerSource = source as PlayerInvokeSource;
             if (playerSource == null)
-                throw new InvalidInvokeSourceCommandException("You must call this command as a player.");
+                throw new InvalidInvokeSourceCommandException(errorMessage);
 
             return playerSource;
         }
 
-        public static ConsoleInvokeSource ToConsoleInvokeSource(this IInvokeSource source)
+        public static ConsoleInvokeSource ToConsoleInvokeSource(this IInvokeSource source,
+            string errorMessage = "This command is not available in game.")
         {
             var consoleSource = source as ConsoleInvokeSource;
             if (consoleSource == null)
-                throw new InvalidInvokeSourceCommandException("This command is not available in game.");
+                throw new InvalidInvokeSourceCommandException(errorMessage);
 
             return consoleSource;
         }

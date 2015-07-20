@@ -7,7 +7,32 @@ namespace BotBits.Commands
 {
     public sealed class Command
     {
-        public Command(string[] names, string[] usages, int minArgs, Action<IInvokeSource, ParsedRequest> callback)
+        public Command(int minArgs, string name, Action<IInvokeSource, ParsedRequest> callback)
+            : this(minArgs, new[] { name }, new string[0], callback)
+        {
+        }
+
+        public Command(int minArgs, string name, string usage, Action<IInvokeSource, ParsedRequest> callback)
+            : this(minArgs, new[] { name }, new[] { usage }, callback)
+        {
+        }
+
+        public Command(int minArgs, string name, string[] usages, Action<IInvokeSource, ParsedRequest> callback)
+            : this(minArgs, new[] { name }, usages, callback)
+        {
+        }
+
+        public Command(int minArgs, string[] names, Action<IInvokeSource, ParsedRequest> callback)
+            : this(minArgs, names, new string[0], callback)
+        {
+        }
+
+        public Command(int minArgs, string[] names, string usage, Action<IInvokeSource, ParsedRequest> callback)
+            : this(minArgs, names, new[] { usage }, callback)
+        {
+        }
+
+        public Command(int minArgs, string[] names, string[] usages, Action<IInvokeSource, ParsedRequest> callback)
         {
             if (names == null) throw new ArgumentNullException("names");
             if (usages == null) throw new ArgumentNullException("usages");

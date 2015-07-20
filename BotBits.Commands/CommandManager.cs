@@ -17,6 +17,11 @@ namespace BotBits.Commands
         public char[] CommandPrefixes { get; internal set; }
         public ListeningBehavior ListeningBehavior { get; internal set; }
 
+        [Obsolete("Invalid to use \"new\" on this class. Use the static .Of(botBits) method instead.", true)]
+        public CommandManager()
+        {
+        }
+
         public void ReadNextConsoleCommand()
         {
             var text = Console.ReadLine();
@@ -28,7 +33,7 @@ namespace BotBits.Commands
                 .RaiseIn(this.BotBits);
         }
 
-        [EventListener(EventPriority.High)]
+        [EventListener]
         private void OnChat(ChatEvent e)
         {
             if (!this.ListeningBehavior.HasFlag(ListeningBehavior.Chat)) return;
@@ -45,7 +50,7 @@ namespace BotBits.Commands
             }
         }
 
-        [EventListener(EventPriority.High)]
+        [EventListener]
         private void OnPrivateMessage(PrivateMessageEvent e)
         {
             if (!this.ListeningBehavior.HasFlag(ListeningBehavior.PrivateMessage)) return;
@@ -64,7 +69,7 @@ namespace BotBits.Commands
             }
         }
         
-        [EventListener(EventPriority.High)]
+        [EventListener(EventPriority.Lowest)]
         private void OnCommand(CommandEvent e)
         {
             try
