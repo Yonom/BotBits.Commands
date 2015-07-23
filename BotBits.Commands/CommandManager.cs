@@ -38,6 +38,7 @@ namespace BotBits.Commands
         {
             if (!this.ListeningBehavior.HasFlag(ListeningBehavior.Chat)) return;
             if (e.Player == Players.Of(this.BotBits).OwnPlayer) return;
+            if (e.Text.Length == 0) return;
 
             if (this.CommandPrefixes.Contains(e.Text[0]))
             {
@@ -54,6 +55,7 @@ namespace BotBits.Commands
         private void OnPrivateMessage(PrivateMessageEvent e)
         {
             if (!this.ListeningBehavior.HasFlag(ListeningBehavior.PrivateMessage)) return;
+            if (e.Message.Length == 0) return;
 
             if (CommandPrefixes.Contains(e.Message[0]))
             {
