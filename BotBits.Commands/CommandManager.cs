@@ -71,7 +71,7 @@ namespace BotBits.Commands
             }
         }
         
-        [EventListener(EventPriority.Lowest)]
+        [EventListener(GlobalPriority.AfterMost)]
         private void OnCommand(CommandEvent e)
         {
             try
@@ -104,7 +104,7 @@ namespace BotBits.Commands
             }
         }
 
-        [EventListener(EventPriority.Lowest)]
+        [EventListener(GlobalPriority.AfterMost)]
         private void OnCommandException(CommandExceptionEvent e)
         {
             if (e.Handled) return;
