@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using BotBits.Events;
 
 namespace BotBits.Commands
@@ -20,6 +21,20 @@ namespace BotBits.Commands
         [Obsolete("Invalid to use \"new\" on this class. Use the static .Of(botBits) method instead.", true)]
         public CommandManager()
         {
+        }
+
+        public Thread CreateConsoleCommandReaderThread()
+        {
+            return this.CreateConsoleCommandReaderThread(new CancellationToken());
+        }
+
+        public Thread CreateConsoleCommandReaderThread(CancellationToken cancellationToken)
+        {
+            return new Thread(() =>
+            {
+                while (!cancellationToken.IsCancellationRequested) 
+                    this.ReadNextConsoleCommand();
+            }) {IsBackground = true, Name = "BotBits.Commands.CommandReader"};
         }
 
         public void ReadNextConsoleCommand()
@@ -108,6 +123,7 @@ namespace BotBits.Commands
         private void OnCommandException(CommandExceptionEvent e)
         {
             if (e.Handled) return;
+            if (String.IsNullOrEmpty(e.Exception.Message)) return;
 
             e.Source.Reply(e.Exception.Message);
         }
