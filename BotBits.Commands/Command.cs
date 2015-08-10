@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace BotBits.Commands
 {
@@ -44,12 +45,21 @@ namespace BotBits.Commands
             this.Callback = callback;
         }
 
-        internal Command(Action<IInvokeSource, ParsedRequest> callback)
+        internal Command(BotBitsClient client, Func<IInvokeSource, ParsedRequest, Task> callback)
+            : this(ExceptionHelper.WrapTryCatch(client, callback), callback.Method)
+        {
+        }
+
+        internal Command(BotBitsClient client, Action<IInvokeSource, ParsedRequest> callback)
+            : this(ExceptionHelper.WrapTryCatch(client, callback), callback.Method)
+        {
+        }
+
+        private Command(Action<IInvokeSource, ParsedRequest> callback, MethodInfo innerMethod)
         {
             this.Callback = callback;
 
-            var method = callback.Method;
-            var command = (CommandAttribute)method.GetCustomAttributes(typeof(CommandAttribute), false).FirstOrDefault();
+            var command = (CommandAttribute)innerMethod.GetCustomAttributes(typeof(CommandAttribute), false).FirstOrDefault();
             if (command == null) throw new ArgumentException("The given callback is not a command", "callback");
 
             this.Names = command.Names ?? new string[0];

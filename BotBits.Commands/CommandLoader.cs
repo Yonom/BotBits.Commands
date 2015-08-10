@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace BotBits.Commands
 {
@@ -27,10 +28,22 @@ namespace BotBits.Commands
             if (parameters[1].ParameterType != typeof(ParsedRequest))
                 throw GetCommandEx(eventHandler, "Second argument must be of type ParsedCommand.");
 
-            var handler = (Action<IInvokeSource, ParsedRequest>)
-                Delegate.CreateDelegate(typeof(Action<IInvokeSource, ParsedRequest>), baseObj, eventHandler);
-
-            return () => CommandManager.Of(this.BotBits).Add(handler);
+            if (eventHandler.ReturnType == typeof (Task))
+            {
+                var handler = (Func<IInvokeSource, ParsedRequest, Task>)
+                    Delegate.CreateDelegate(typeof(Func<IInvokeSource, ParsedRequest, Task>), baseObj, eventHandler);
+               return () => CommandManager.Of(this.BotBits).Add(handler);
+            }
+            else if (eventHandler.ReturnType == typeof (void))
+            {
+                var handler = (Action<IInvokeSource, ParsedRequest>)
+                    Delegate.CreateDelegate(typeof (Action<IInvokeSource, ParsedRequest>), baseObj, eventHandler);
+                return () => CommandManager.Of(this.BotBits).Add(handler);
+            }
+            else
+            {
+                throw GetCommandEx(eventHandler, "Return type must be void (or async Task).");
+            }
         }
 
         private static Exception GetCommandEx(MethodInfo handler, string reason)

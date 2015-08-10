@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using BotBits.Events;
 
 namespace BotBits.Commands
@@ -89,10 +90,10 @@ namespace BotBits.Commands
         [EventListener(GlobalPriority.AfterMost)]
         private void OnCommand(CommandEvent e)
         {
-            try
+            ExceptionHelper.WrapTryCatch(this.BotBits, (source, req) =>
             {
                 Command cmd;
-                if (this.TryGetCommand(e.Request.Type, out cmd))
+                if (this.TryGetCommand(req.Type, out cmd))
                 {
                     if (e.Handled)
                     {
@@ -100,23 +101,18 @@ namespace BotBits.Commands
                     }
 
                     e.Handled = true;
-                    if (e.Request.Count < cmd.MinArgs)
+                    if (req.Count < cmd.MinArgs)
                         throw new SyntaxCommandException(
                             "Too few arguments. Correct usage: " +
-                            this.GetUsageStr(cmd, e.Request.Type));
+                            this.GetUsageStr(cmd, req.Type));
 
-                    cmd.Callback(e.Source, e.Request);
+                    cmd.Callback(source, req);
                 }
                 else
                 {
                     throw new UnknownCommandException("Unknown command.");
                 }
-            }
-            catch (CommandException ex)
-            {
-                new CommandExceptionEvent(e.Source, e.Request, ex)
-                    .RaiseIn(this.BotBits);
-            }
+            })(e.Source, e.Request);
         }
 
         [EventListener(GlobalPriority.AfterMost)]
@@ -167,9 +163,19 @@ namespace BotBits.Commands
         /// </summary>
         /// <param name="callback">The command.</param>
         /// <exception cref="System.ArgumentException">A command with the given name has already been registered.</exception> 
+        public void Add(Func<IInvokeSource, ParsedRequest, Task> callback)
+        {
+            this.Add(new Command(this.BotBits, callback));
+        }
+
+        /// <summary>
+        ///     Registers the specified command.
+        /// </summary>
+        /// <param name="callback">The command.</param>
+        /// <exception cref="System.ArgumentException">A command with the given name has already been registered.</exception> 
         public void Add(Action<IInvokeSource, ParsedRequest> callback)
         {
-            this.Add(new Command(callback));
+            this.Add(new Command(this.BotBits, callback));
         }
 
         /// <summary>
