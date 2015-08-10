@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BotBits.Commands
@@ -32,9 +34,9 @@ namespace BotBits.Commands
             return (source, req) =>
             {
                 callback(source, req).ContinueWith(task =>
-                {
-                    if (task.IsFaulted && task.Exception != null)
+                    ConnectionManager.Of(client).CurrentScheduler.Schedule(() =>
                     {
+                        if (task.Exception == null) return;
                         var ex = task.Exception.InnerExceptions.FirstOrDefault() as CommandException;
                         if (ex != null)
                         {
@@ -45,8 +47,7 @@ namespace BotBits.Commands
                         {
                             throw task.Exception.InnerExceptions.FirstOrDefault() ?? task.Exception;
                         }
-                    }
-                });
+                    }), TaskContinuationOptions.OnlyOnFaulted);
             };
         }
     }
