@@ -102,6 +102,17 @@ static void HiCommand(IInvokeSource source, ParsedCommand command)
 ```
 If this command is run in console, an exception is thrown. This exception will be caught by BotBits.Commands (see below) and its message will be outputted to console: "You must call this command as a player."
 
+### Async Support
+To be able to use the ```await``` operator in command handlers, use the following syntax:
+```csharp
+[Command(...)]
+static async Task CommandName(IInvokeSource source, ParsedCommand command)
+{
+    // Command handler code
+}
+```
+__Note:__ ```async void``` is *NOT* supported.
+
 ## CommandExceptions
 
 `CommandException` is an exception type that is automatically caught by BotBits.Commands. The error message will be outputted by calling `source.Reply`.
