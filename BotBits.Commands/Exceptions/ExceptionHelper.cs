@@ -34,7 +34,7 @@ namespace BotBits.Commands
             return (source, req) =>
             {
                 callback(source, req).ContinueWith(task =>
-                    ConnectionManager.Of(client).CurrentScheduler.Schedule(() =>
+                    Scheduler.Of(client).Schedule(() =>
                     {
                         if (task.Exception == null) return;
                         var ex = task.Exception.InnerExceptions.FirstOrDefault() as CommandException;
