@@ -5,7 +5,7 @@ Here is an example:
 
 ```csharp
 [Command(0, "hi")]
-void HiCommand(IInvokeSource source, ParsedCommand command)
+void HiCommand(IInvokeSource source, ParsedRequest request)
 {
     source.Reply("Hello world!");
 }
@@ -65,7 +65,7 @@ CommandLoader
 
 ## Defining Command handlers
 
-A command handler is a method that has the `CommandAttribute`, and two arguments: `IInvokeSource` and `ParsedCommand`. These will be provided by BotBits.Command.
+A command handler is a method that has the `CommandAttribute`, and two arguments: `IInvokeSource` and `ParsedRequest`. These will be provided by BotBits.Command.
 
 `IInvokeSource` contains information about the origin of a command.
 - The `Name` property of the source contains the `player.ChatName` property or `console` in case of a console command.
@@ -73,7 +73,7 @@ A command handler is a method that has the `CommandAttribute`, and two arguments
 
 There are two `IInvokeSource` implementations available out of the box: `ConsoleInvokeSource` and `PlayerInvokeSource`. 
 
-`ParsedCommand` includes information about the command itself. 
+`ParsedRequest` includes information about the command itself. 
 - The `Type` contains the case sensitive name of the command requested to run.  
 - The `Args` array contains the arguments that were separated by spaces.  
 - The `GetTrail(start)` method joins all args from the start index with spaces. This is useful if you want to accept strings that contain spaces as an argument.  
@@ -81,9 +81,9 @@ There are two `IInvokeSource` implementations available out of the box: `Console
 
 ```csharp
 [Command(1, "echo", Usage = "text")]
-void HiCommand(IInvokeSource source, ParsedCommand command)
+void HiCommand(IInvokeSource source, ParsedRequest request)
 {
-    source.Reply(command.GetTrail(0));
+    source.Reply(request.GetTrail(0));
 }
 ```
 This command echos whatever you give to it as arguments. Ex: "!echo hello world" results in "hello world"
@@ -94,7 +94,7 @@ There are two extension methods, `ToPlayerInvokeSource` and `ToConsoleInvokeSour
 This is useful if you want to have commands that are only callable in game or in console.
 ```csharp
 [Command(0, "hi")]
-static void HiCommand(IInvokeSource source, ParsedCommand command)
+static void HiCommand(IInvokeSource source, ParsedRequest request)
 {
     var player = source.ToPlayerInvokeSource().Player;
     source.Reply("Hello world {0}!", player.Username);
@@ -106,7 +106,7 @@ If this command is run in console, an exception is thrown. This exception will b
 To be able to use the ```await``` operator in command handlers, use the following syntax:
 ```csharp
 [Command(...)]
-static async Task CommandName(IInvokeSource source, ParsedCommand command)
+static async Task CommandName(IInvokeSource source, ParsedRequest request)
 {
     // Command handler code
 }
