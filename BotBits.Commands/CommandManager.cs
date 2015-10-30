@@ -227,6 +227,7 @@ namespace BotBits.Commands
                 return this._commands
                     .Where(kv => kv.Value == command)
                     .Select(kv => kv.Key)
+                    .ToArray()
                     .All(this._commands.Remove);
             }
         }

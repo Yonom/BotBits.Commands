@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 namespace BotBits.Commands
 {
     [AttributeUsage(AttributeTargets.Method), MeansImplicitUse]
-    public sealed class CommandAttribute : Attribute
+    public class CommandAttribute : Attribute
     {
         private readonly int _minArgs;
         private readonly string[] _names;
@@ -36,6 +36,11 @@ namespace BotBits.Commands
         {
             this._minArgs = minArgs;
             this._names = names;
+        }
+
+        protected internal virtual Action<IInvokeSource, ParsedRequest> DoTransformations(Command command, Action<IInvokeSource, ParsedRequest> request)
+        {
+            return request;
         }
     }
 }

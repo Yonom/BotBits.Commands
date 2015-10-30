@@ -34,24 +34,20 @@ namespace BotBits.Commands
                     Delegate.CreateDelegate(typeof(Func<IInvokeSource, ParsedRequest, Task>), baseObj, eventHandler);
                return () => CommandManager.Of(this.BotBits).Add(handler);
             }
-            else if (eventHandler.ReturnType == typeof (void))
+            if (eventHandler.ReturnType == typeof (void))
             {
                 var handler = (Action<IInvokeSource, ParsedRequest>)
                     Delegate.CreateDelegate(typeof (Action<IInvokeSource, ParsedRequest>), baseObj, eventHandler);
                 return () => CommandManager.Of(this.BotBits).Add(handler);
             }
-            else
-            {
-                throw GetCommandEx(eventHandler, "Return type must be void (or async Task).");
-            }
+            throw GetCommandEx(eventHandler, "Return type must be void (or async Task).");
         }
 
         private static Exception GetCommandEx(MethodInfo handler, string reason)
         {
-            Debug.Assert(handler.DeclaringType != null, "handler.DeclaringType != null");
             return
                 new TypeLoadException(String.Format("Unable to assign the method {0}.{1} to a command handler. {2}",
-                    handler.DeclaringType.FullName, handler.Name, reason));
+                    handler.DeclaringType?.FullName, handler.Name, reason));
         }
     }
 }

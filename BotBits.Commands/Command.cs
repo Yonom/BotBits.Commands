@@ -57,14 +57,15 @@ namespace BotBits.Commands
 
         private Command(Action<IInvokeSource, ParsedRequest> callback, MethodInfo innerMethod)
         {
-            this.Callback = callback;
-
             var command = (CommandAttribute)innerMethod.GetCustomAttributes(typeof(CommandAttribute), false).FirstOrDefault();
-            if (command == null) throw new ArgumentException("The given callback is not a command", "callback");
+            if (command == null) throw new ArgumentException("The given callback is not a command", nameof(callback));
+
 
             this.Names = command.Names ?? new string[0];
             this.Usages = command.Usages ?? new string[0];
             this.MinArgs = command.MinArgs;
+
+            this.Callback = command.DoTransformations(this, callback);
         }
 
         public string[] Names { get; private set; }
