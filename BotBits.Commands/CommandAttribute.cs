@@ -27,6 +27,8 @@ namespace BotBits.Commands
             set { this.Usages = new[] {value}; }
         }
 
+        public bool Override { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandAttribute" /> class.
         /// </summary>

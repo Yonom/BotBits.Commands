@@ -65,6 +65,7 @@ namespace BotBits.Commands
             this.Names = command.Names ?? new string[0];
             this.Usages = command.Usages ?? new string[0];
             this.MinArgs = command.MinArgs;
+            this.Override = command.Override;
         }
 
         public string[] Names { get; private set; }
@@ -72,6 +73,8 @@ namespace BotBits.Commands
         public string[] Usages { get; private set; }
 
         public int MinArgs { get; private set; }
+
+        public bool Override { get; private set; }
 
         public Action<IInvokeSource, ParsedRequest> Callback { get; private set; }
     }

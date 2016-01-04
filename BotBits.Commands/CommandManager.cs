@@ -187,7 +187,14 @@ namespace BotBits.Commands
         {
             lock (this._lockObj)
             {
-                if (command.Names.Any(this.ContainsInternal))
+                if (command.Override)
+                {
+                    foreach (var name in command.Names)
+                    {
+                        this._commands.Remove(name);
+                    }
+                }
+                else if (command.Names.Any(this.ContainsInternal))
                 {
                     throw new ArgumentException("A command with the given name has already been registered.");
                 }
