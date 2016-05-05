@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -43,11 +44,19 @@ namespace BotBits.Commands
             throw GetCommandEx(eventHandler, "Return type must be void (or async Task).");
         }
 
+        protected override Action GetUnbinder(object baseObj, MethodInfo eventHandler)
+        {
+            var attr = (CommandAttribute)eventHandler.GetCustomAttributes(typeof(CommandAttribute), false).First();
+            var cmdname = attr.Names.First();
+            Command command;
+            CommandManager.Of(this.BotBits).TryGetCommand(cmdname, out command);
+            return () => CommandManager.Of(this.BotBits).Remove(command);
+        }
+
         private static Exception GetCommandEx(MethodInfo handler, string reason)
         {
-            return
-                new TypeLoadException(String.Format("Unable to assign the method {0}.{1} to a command handler. {2}",
-                    handler.DeclaringType?.FullName, handler.Name, reason));
+            return new TypeLoadException(
+                $"Unable to assign the method {handler.DeclaringType?.FullName}.{handler.Name} to a command handler. {reason}");
         }
     }
 }

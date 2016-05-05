@@ -11,18 +11,24 @@ namespace BotBits.Commands.Demo
             var bot = new BotBitsClient();
 
             // Events
-            EventLoader.Of(bot).LoadStatic<Program>();
+            EventLoader
+                .Of(bot)
+                .LoadStatic<Program>();
 
             // Commands
             CommandsExtension.LoadInto(bot, '!', '.');
+
+            CommandLoader
+                .Of(bot)
+                .LoadStatic<Program>();
             CommandLoader
                 .Of(bot)
                 .LoadStatic<Program>();
 
             // Login
-            //ConnectionManager.Of(bot)
-            //    .EmailLogin("email", "pass")
-            //    .CreateJoinRoom("world");
+            Login.Of(bot)
+                .AsGuest()
+                .CreateJoinRoom("PW01");
 
             // Console commands
             while (true) 

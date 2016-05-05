@@ -35,9 +35,9 @@ namespace BotBits.Commands
 
         public Command(int minArgs, string[] names, string[] usages, Action<IInvokeSource, ParsedRequest> callback)
         {
-            if (names == null) throw new ArgumentNullException("names");
-            if (usages == null) throw new ArgumentNullException("usages");
-            if (callback == null) throw new ArgumentNullException("callback");
+            if (names == null) throw new ArgumentNullException(nameof(names));
+            if (usages == null) throw new ArgumentNullException(nameof(usages));
+            if (callback == null) throw new ArgumentNullException(nameof(callback));
 
             this.Names = names;
             this.Usages = usages;
@@ -46,16 +46,16 @@ namespace BotBits.Commands
         }
 
         internal Command(BotBitsClient client, Func<IInvokeSource, ParsedRequest, Task> callback)
-            : this(ExceptionHelper.WrapTryCatch(client, callback), callback.Method)
+            : this(client, ExceptionHelper.WrapTryCatch(client, callback), callback.Method)
         {
         }
 
         internal Command(BotBitsClient client, Action<IInvokeSource, ParsedRequest> callback)
-            : this(ExceptionHelper.WrapTryCatch(client, callback), callback.Method)
+            : this(client, ExceptionHelper.WrapTryCatch(client, callback), callback.Method)
         {
         }
 
-        private Command(Action<IInvokeSource, ParsedRequest> callback, MethodInfo innerMethod)
+        private Command(BotBitsClient client, Action<IInvokeSource, ParsedRequest> callback, MethodInfo innerMethod)
         {
             var command = (CommandAttribute)innerMethod.GetCustomAttributes(typeof(CommandAttribute), false).FirstOrDefault();
             if (command == null) throw new ArgumentException("The given callback is not a command", nameof(callback));
@@ -65,15 +65,15 @@ namespace BotBits.Commands
             this.Usages = command.Usages ?? new string[0];
             this.MinArgs = command.MinArgs;
 
-            this.Callback = command.DoTransformations(this, callback);
+            this.Callback = command.DoTransformations(client, this, callback);
         }
 
-        public string[] Names { get; private set; }
+        public string[] Names { get; }
 
-        public string[] Usages { get; private set; }
+        public string[] Usages { get; }
 
-        public int MinArgs { get; private set; }
+        public int MinArgs { get; }
 
-        public Action<IInvokeSource, ParsedRequest> Callback { get; private set; }
+        public Action<IInvokeSource, ParsedRequest> Callback { get; }
     }
 }

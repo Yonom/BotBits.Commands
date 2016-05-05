@@ -38,6 +38,17 @@ namespace BotBits.Commands
             }) {IsBackground = true, Name = "BotBits.Commands.CommandReader"};
         }
 
+        public Command this[string name]
+        {
+            get
+            {
+                Command cmd;
+                if (!this.TryGetCommand(name, out cmd))
+                    throw new InvalidOperationException("Unknown command.");
+                return cmd;
+            }
+        }
+
         public void ReadNextConsoleCommand()
         {
             var text = Console.ReadLine();
@@ -73,7 +84,7 @@ namespace BotBits.Commands
             if (!this.ListeningBehavior.HasFlag(ListeningBehavior.PrivateMessage)) return;
             if (e.Message.Length == 0) return;
 
-            if (CommandPrefixes.Contains(e.Message[0]))
+            if (this.CommandPrefixes.Contains(e.Message[0]))
             {
                 var player = Players.Of(this.BotBits).FromUsername(e.Username).FirstOrDefault();
                 if (player == null) return;
@@ -187,9 +198,10 @@ namespace BotBits.Commands
         {
             lock (this._lockObj)
             {
-                if (command.Names.Any(this.ContainsInternal))
+                var dupes = command.Names.Where(this.ContainsInternal).ToArray();
+                if (dupes.Any())
                 {
-                    throw new ArgumentException("A command with the given name has already been registered.");
+                    throw new ArgumentException($"A command with the given name(s) has already been registered: {String.Join(",", dupes)}");
                 }
 
                 foreach (var label in command.Names)

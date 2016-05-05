@@ -11,7 +11,7 @@ namespace BotBits.Commands
         public ParsedRequest([NotNull] string value)
         {
             if (value == null)
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
 
             this.Value = value;
             string[] parts = value.Split(' ');

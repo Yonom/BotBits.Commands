@@ -38,7 +38,7 @@ namespace BotBits.Commands
             this._names = names;
         }
 
-        protected internal virtual Action<IInvokeSource, ParsedRequest> DoTransformations(Command command, Action<IInvokeSource, ParsedRequest> request)
+        protected internal virtual Action<IInvokeSource, ParsedRequest> DoTransformations(BotBitsClient client, Command command, Action<IInvokeSource, ParsedRequest> request)
         {
             return request;
         }

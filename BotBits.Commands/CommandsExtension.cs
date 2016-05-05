@@ -6,8 +6,8 @@ namespace BotBits.Commands
     {
         private class Settings
         {
-            public char[] CommandPrefixes { get; private set; }
-            public ListeningBehavior ListeningBehavior { get; private set; }
+            public char[] CommandPrefixes { get; }
+            public ListeningBehavior ListeningBehavior { get; }
 
             public Settings(char[] commandPrefixes, ListeningBehavior listeningBehavior = ListeningBehavior.Both)
             {
@@ -26,7 +26,7 @@ namespace BotBits.Commands
         public static bool LoadInto(BotBitsClient client, params char[] commandPrefixes)
         {
             if (commandPrefixes.Length == 0)
-                throw new ArgumentException("At least one command prefix must be provided.", "commandPrefixes");
+                throw new ArgumentException("At least one command prefix must be provided.", nameof(commandPrefixes));
             
             return LoadInto(client, new Settings(commandPrefixes));
         }
@@ -34,7 +34,7 @@ namespace BotBits.Commands
         public static bool LoadInto(BotBitsClient client, ListeningBehavior listeningBehavior, params char[] commandPrefixes)
         {
             if (commandPrefixes.Length == 0)
-                throw new ArgumentException("At least one command prefix must be provided.", "commandPrefixes");
+                throw new ArgumentException("At least one command prefix must be provided.", nameof(commandPrefixes));
 
             return LoadInto(client, new Settings(commandPrefixes, listeningBehavior));
         }
