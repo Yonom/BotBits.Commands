@@ -1,16 +1,14 @@
-﻿using System;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
 namespace BotBits.Commands
 {
     public static class InvokeSourceExtensions
     {
-        public static PlayerInvokeSource ToPlayerInvokeSource(this IInvokeSource source, 
+        public static PlayerInvokeSource ToPlayerInvokeSource(this IInvokeSource source,
             string errorMessage = "You must call this command as a player.")
         {
             var playerSource = source as PlayerInvokeSource;
-            if (playerSource == null)
-                throw new InvalidInvokeSourceCommandException(errorMessage);
+            if (playerSource == null) throw new InvalidInvokeSourceCommandException(errorMessage);
 
             return playerSource;
         }
@@ -19,8 +17,7 @@ namespace BotBits.Commands
             string errorMessage = "This command is not available in game.")
         {
             var consoleSource = source as ConsoleInvokeSource;
-            if (consoleSource == null)
-                throw new InvalidInvokeSourceCommandException(errorMessage);
+            if (consoleSource == null) throw new InvalidInvokeSourceCommandException(errorMessage);
 
             return consoleSource;
         }
@@ -35,7 +32,7 @@ namespace BotBits.Commands
         public static void Reply(this IInvokeSource invokeSource, string message, params object[] args)
         {
             // ReSharper disable once RedundantStringFormatCall
-            invokeSource.Reply(String.Format(message, args));
+            invokeSource.Reply(string.Format(message, args));
         }
     }
 }

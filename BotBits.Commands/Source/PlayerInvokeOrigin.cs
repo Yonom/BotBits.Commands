@@ -14,8 +14,7 @@ namespace BotBits.Commands
             var playerSource = source as PlayerInvokeSource;
             if (playerSource != null)
             {
-                if (playerSource.Origin != origin)
-                    throw new InvalidInvokeOriginCommandException(errorMessage);
+                if (playerSource.Origin != origin) throw new InvalidInvokeOriginCommandException(errorMessage);
             }
         }
     }

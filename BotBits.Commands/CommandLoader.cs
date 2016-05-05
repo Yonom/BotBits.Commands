@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -20,25 +19,22 @@ namespace BotBits.Commands
 
         protected override Action GetBinder(object baseObj, MethodInfo eventHandler)
         {
-            ParameterInfo[] parameters = eventHandler.GetParameters();
-            if (parameters.Length != 2)
-                throw GetCommandEx(eventHandler, "Too few or too many parameters. Command handlers must have exactly two parameters.");
+            var parameters = eventHandler.GetParameters();
+            if (parameters.Length != 2) throw GetCommandEx(eventHandler, "Too few or too many parameters. Command handlers must have exactly two parameters.");
 
-            if (parameters[0].ParameterType != typeof(IInvokeSource))
-                throw GetCommandEx(eventHandler, "First argument must be of type IInvokeSource.");
-            if (parameters[1].ParameterType != typeof(ParsedRequest))
-                throw GetCommandEx(eventHandler, "Second argument must be of type ParsedCommand.");
+            if (parameters[0].ParameterType != typeof(IInvokeSource)) throw GetCommandEx(eventHandler, "First argument must be of type IInvokeSource.");
+            if (parameters[1].ParameterType != typeof(ParsedRequest)) throw GetCommandEx(eventHandler, "Second argument must be of type ParsedCommand.");
 
-            if (eventHandler.ReturnType == typeof (Task))
+            if (eventHandler.ReturnType == typeof(Task))
             {
                 var handler = (Func<IInvokeSource, ParsedRequest, Task>)
                     Delegate.CreateDelegate(typeof(Func<IInvokeSource, ParsedRequest, Task>), baseObj, eventHandler);
-               return () => CommandManager.Of(this.BotBits).Add(handler);
+                return () => CommandManager.Of(this.BotBits).Add(handler);
             }
-            if (eventHandler.ReturnType == typeof (void))
+            if (eventHandler.ReturnType == typeof(void))
             {
                 var handler = (Action<IInvokeSource, ParsedRequest>)
-                    Delegate.CreateDelegate(typeof (Action<IInvokeSource, ParsedRequest>), baseObj, eventHandler);
+                    Delegate.CreateDelegate(typeof(Action<IInvokeSource, ParsedRequest>), baseObj, eventHandler);
                 return () => CommandManager.Of(this.BotBits).Add(handler);
             }
             throw GetCommandEx(eventHandler, "Return type must be void (or async Task).");

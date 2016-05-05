@@ -17,10 +17,6 @@ namespace BotBits.Commands.Demo
 
             // Commands
             CommandsExtension.LoadInto(bot, '!', '.');
-
-            CommandLoader
-                .Of(bot)
-                .LoadStatic<Program>();
             CommandLoader
                 .Of(bot)
                 .LoadStatic<Program>();

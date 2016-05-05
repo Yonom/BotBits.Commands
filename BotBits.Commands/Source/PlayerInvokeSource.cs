@@ -12,7 +12,7 @@ namespace BotBits.Commands
             this.Origin = origin;
         }
 
-        public Player Player { get; private set; }
-        public PlayerInvokeOrigin Origin { get; private set; }
+        public Player Player { get; }
+        public PlayerInvokeOrigin Origin { get; }
     }
 }

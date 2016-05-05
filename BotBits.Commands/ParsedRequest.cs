@@ -10,23 +10,18 @@ namespace BotBits.Commands
     {
         public ParsedRequest([NotNull] string value)
         {
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
+            if (value == null) throw new ArgumentNullException(nameof(value));
 
             this.Value = value;
-            string[] parts = value.Split(' ');
+            var parts = value.Split(' ');
             this.Type = parts[0];
             this.Args = parts.Skip(1).ToArray();
         }
 
-        public string Value { get; private set; }
-        public string Type { get; private set; }
-        public string[] Args { get; private set; }
-
-        public int Count
-        {
-            get { return this.Args.Length; }
-        }
+        public string Value { get; }
+        public string Type { get; }
+        public string[] Args { get; }
+        public int Count => this.Args.Length;
 
         [Pure]
         public int GetInt(int index)
@@ -48,7 +43,7 @@ namespace BotBits.Commands
         [Pure]
         public string GetTrail(int index)
         {
-            return String.Join(" ", this.Args.Skip(index));
+            return string.Join(" ", this.Args.Skip(index));
         }
     }
 }

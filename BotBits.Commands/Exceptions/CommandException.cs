@@ -7,8 +7,6 @@ namespace BotBits.Commands
     /// </summary>
     public class CommandException : Exception
     {
-        public bool Ignored { get; private set; }
-
         public CommandException(bool ignored = false)
         {
             this.Ignored = ignored;
@@ -25,5 +23,7 @@ namespace BotBits.Commands
         {
             this.Ignored = ignored;
         }
+
+        public bool Ignored { get; private set; }
     }
 }

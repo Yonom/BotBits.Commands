@@ -1,5 +1,7 @@
 ﻿using System;
 
+// ReSharper disable NotNullMemberIsNotInitialized
+
 #pragma warning disable 1591
 // ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedParameter.Local
@@ -28,7 +30,7 @@ namespace JetBrains.Annotations
     [AttributeUsage(
         AttributeTargets.Method | AttributeTargets.Parameter |
         AttributeTargets.Property | AttributeTargets.Delegate |
-        AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+        AttributeTargets.Field)]
     internal sealed class CanBeNullAttribute : Attribute
     {
     }
@@ -46,7 +48,7 @@ namespace JetBrains.Annotations
     [AttributeUsage(
         AttributeTargets.Method | AttributeTargets.Parameter |
         AttributeTargets.Property | AttributeTargets.Delegate |
-        AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+        AttributeTargets.Field)]
     internal sealed class NotNullAttribute : Attribute
     {
     }
@@ -66,8 +68,7 @@ namespace JetBrains.Annotations
     /// </code>
     /// </example>
     [AttributeUsage(
-        AttributeTargets.Constructor | AttributeTargets.Method,
-        AllowMultiple = false, Inherited = true)]
+        AttributeTargets.Constructor | AttributeTargets.Method)]
     internal sealed class StringFormatMethodAttribute : Attribute
     {
         /// <param name="formatParameterName">
@@ -94,7 +95,7 @@ namespace JetBrains.Annotations
     /// }
     /// </code>
     /// </example>
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Parameter)]
     internal sealed class InvokerParameterNameAttribute : Attribute
     {
     }
@@ -154,7 +155,7 @@ namespace JetBrains.Annotations
     ///         </item>
     ///     </list>
     /// </example>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method)]
     internal sealed class NotifyPropertyChangedInvocatorAttribute : Attribute
     {
         public NotifyPropertyChangedInvocatorAttribute()
@@ -223,7 +224,7 @@ namespace JetBrains.Annotations
     ///         </item>
     ///     </list>
     /// </examples>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     internal sealed class ContractAnnotationAttribute : Attribute
     {
         public ContractAnnotationAttribute([NotNull] string contract)
@@ -252,7 +253,7 @@ namespace JetBrains.Annotations
     /// }
     /// </code>
     /// </example>
-    [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.All)]
     internal sealed class LocalizationRequiredAttribute : Attribute
     {
         public LocalizationRequiredAttribute()
@@ -291,7 +292,7 @@ namespace JetBrains.Annotations
     /// </example>
     [AttributeUsage(
         AttributeTargets.Interface | AttributeTargets.Class |
-        AttributeTargets.Struct, AllowMultiple = false, Inherited = true)]
+        AttributeTargets.Struct)]
     internal sealed class CannotApplyEqualityOperatorAttribute : Attribute
     {
     }
@@ -308,7 +309,7 @@ namespace JetBrains.Annotations
     /// public class MyComponent : IComponent { }
     /// </code>
     /// </example>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     [BaseTypeRequired(typeof(Attribute))]
     internal sealed class BaseTypeRequiredAttribute : Attribute
     {
@@ -326,7 +327,7 @@ namespace JetBrains.Annotations
     ///     (e.g. via reflection, in external library), so this symbol
     ///     will not be marked as unused (as well as by other usage inspections)
     /// </summary>
-    [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.All)]
     internal sealed class UsedImplicitlyAttribute : Attribute
     {
         public UsedImplicitlyAttribute()
@@ -360,7 +361,7 @@ namespace JetBrains.Annotations
     ///     to not mark symbols marked with such attributes as unused
     ///     (as well as by other usage inspections)
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class)]
     internal sealed class MeansImplicitUseAttribute : Attribute
     {
         public MeansImplicitUseAttribute()
@@ -410,7 +411,7 @@ namespace JetBrains.Annotations
         InstantiatedWithFixedConstructorSignature = 4,
 
         /// <summary>Indicates implicit instantiation of a type</summary>
-        InstantiatedNoFixedConstructorSignature = 8,
+        InstantiatedNoFixedConstructorSignature = 8
     }
 
     /// <summary>
@@ -458,7 +459,7 @@ namespace JetBrains.Annotations
     ///     If the parameter is an enumerable, indicates that it is enumerated
     ///     while the method is executed
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Parameter)]
     internal sealed class InstantHandleAttribute : Attribute
     {
     }
@@ -476,7 +477,7 @@ namespace JetBrains.Annotations
     /// }
     /// </code>
     /// </example>
-    [AttributeUsage(AttributeTargets.Method, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method)]
     internal sealed class PureAttribute : Attribute
     {
     }
@@ -720,7 +721,7 @@ namespace JetBrains.Annotations
 
     [AttributeUsage(
         AttributeTargets.Parameter | AttributeTargets.Property |
-        AttributeTargets.Field, Inherited = true)]
+        AttributeTargets.Field)]
     internal sealed class HtmlElementAttributesAttribute : Attribute
     {
         public HtmlElementAttributesAttribute()
@@ -738,7 +739,7 @@ namespace JetBrains.Annotations
 
     [AttributeUsage(
         AttributeTargets.Parameter | AttributeTargets.Field |
-        AttributeTargets.Property, Inherited = true)]
+        AttributeTargets.Property)]
     internal sealed class HtmlAttributeValueAttribute : Attribute
     {
         public HtmlAttributeValueAttribute([NotNull] string name)
@@ -757,7 +758,7 @@ namespace JetBrains.Annotations
     ///     Use this attribute for custom wrappers similar to
     ///     <c>System.Web.WebPages.WebPageBase.RenderSection(String)</c>
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
     internal sealed class RazorSectionAttribute : Attribute
     {
     }

@@ -10,7 +10,7 @@
             this._onReply = onReply;
         }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
         public void Reply(string message)
         {

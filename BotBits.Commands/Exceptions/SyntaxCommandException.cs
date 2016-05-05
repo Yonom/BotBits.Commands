@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BotBits.Commands
+﻿namespace BotBits.Commands
 {
     public class SyntaxCommandException : CommandException
     {
