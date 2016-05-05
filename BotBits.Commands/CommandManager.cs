@@ -11,7 +11,7 @@ namespace BotBits.Commands
     /// <summary>
     ///     Class CommandManager.
     /// </summary>
-    public sealed class CommandManager : EventListenerPackage<CommandManager>, IEnumerable<Command>
+    public sealed class CommandManager : EventListenerPackage<CommandManager>, IEnumerable<Command>, IDisposable
     {
         private readonly Dictionary<string, Command> _commands = new Dictionary<string, Command>(StringComparer.OrdinalIgnoreCase);
         private readonly object _lockObj = new object();
@@ -254,6 +254,14 @@ namespace BotBits.Commands
             lock (this._lockObj)
             {
                 return this._commands.TryGetValue(name, out command);
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach (var command in this)
+            {
+                this.Remove(command);
             }
         }
     }
