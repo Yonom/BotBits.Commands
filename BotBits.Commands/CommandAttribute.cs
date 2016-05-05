@@ -33,5 +33,13 @@ namespace BotBits.Commands
         {
             return request;
         }
+        
+        protected internal virtual void OnAdd(BotBitsClient client, Command command)
+        {
+        }
+
+        protected internal virtual void OnRemove(BotBitsClient client, Command command)
+        {
+        }
     }
 }

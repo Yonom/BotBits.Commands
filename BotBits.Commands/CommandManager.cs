@@ -231,11 +231,16 @@ namespace BotBits.Commands
         {
             lock (this._lockObj)
             {
-                return this._commands
+                if (this._commands
                     .Where(kv => kv.Value == command)
                     .Select(kv => kv.Key)
                     .ToArray()
-                    .All(this._commands.Remove);
+                    .All(this._commands.Remove))
+                {
+                    command.OnRemove(this.BotBits);
+                    return true;
+                }
+                return false;
             }
         }
 

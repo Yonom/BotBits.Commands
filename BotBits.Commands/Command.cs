@@ -7,6 +7,8 @@ namespace BotBits.Commands
 {
     public sealed class Command
     {
+        private CommandAttribute _command;
+
         public Command(int minArgs, string name, Action<IInvokeSource, ParsedRequest> callback)
             : this(minArgs, new[] { name }, new string[0], callback)
         {
@@ -56,15 +58,20 @@ namespace BotBits.Commands
 
         private Command(BotBitsClient client, Action<IInvokeSource, ParsedRequest> callback, MethodInfo innerMethod)
         {
-            var command = (CommandAttribute)innerMethod.GetCustomAttributes(typeof(CommandAttribute), false).FirstOrDefault();
-            if (command == null) throw new ArgumentException("The given callback is not a command", nameof(callback));
+            this._command = (CommandAttribute)innerMethod.GetCustomAttributes(typeof(CommandAttribute), false).FirstOrDefault();
+            if (this._command == null) throw new ArgumentException("The given callback is not a command", nameof(callback));
+            
+            this.Names = this._command.Names ?? new string[0];
+            this.Usages = this._command.Usages ?? new string[0];
+            this.MinArgs = this._command.MinArgs;
 
+            this.Callback = this._command.DoTransformations(client, this, callback);
+            this._command.OnAdd(client, this);
+        }
 
-            this.Names = command.Names ?? new string[0];
-            this.Usages = command.Usages ?? new string[0];
-            this.MinArgs = command.MinArgs;
-
-            this.Callback = command.DoTransformations(client, this, callback);
+        internal void OnRemove(BotBitsClient client)
+        {
+            this._command.OnRemove(client, this);
         }
 
         public string[] Names { get; }
