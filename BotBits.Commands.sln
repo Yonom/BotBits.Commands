@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotBits.Commands", "BotBits.Commands\BotBits.Commands.csproj", "{75B4FC09-ACB2-4CFF-8759-69555C717125}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotBits.Commands.Demo", "BotBits.Commands.Demo\BotBits.Commands.Demo.csproj", "{E8AC34C0-8A2F-4D3C-97EE-AD0A7313A22B}"
 EndProject
-Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "BotBits.Commands.NuGet", "BotBits.Commands.NuGet\BotBits.Commands.NuGet.nuproj", "{D2133FC1-5CB2-417F-9CB5-2C71C7B13629}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{69104D07-D568-45A4-831A-18FC3F24E01C}"
+EndProject
+Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "BotBits.Commands", "Nuget\BotBits.Commands\BotBits.Commands.nuproj", "{D2133FC1-5CB2-417F-9CB5-2C71C7B13629}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +32,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D2133FC1-5CB2-417F-9CB5-2C71C7B13629} = {69104D07-D568-45A4-831A-18FC3F24E01C}
 	EndGlobalSection
 EndGlobal
