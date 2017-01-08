@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Threading;
-using BotBits.Events;
 
 namespace BotBits.Commands.Demo
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var bot = new BotBitsClient();
 
@@ -27,19 +25,18 @@ namespace BotBits.Commands.Demo
                 .CreateJoinRoom("PW01");
 
             // Console commands
-            while (true) 
-                CommandManager.Of(bot).ReadNextConsoleCommand();
+            while (true) CommandManager.Of(bot).ReadNextConsoleCommand();
         }
 
         [Command(0, "hi")]
-        static void HiCommand(IInvokeSource source, ParsedRequest request)
+        private static void HiCommand(IInvokeSource source, ParsedRequest request)
         {
             var player = source.ToPlayerInvokeSource().Player;
             source.Reply("Hello world {0}!", player.Username);
         }
 
         [EventListener]
-        static void OnCommand(CommandEvent e)
+        private static void OnCommand(CommandEvent e)
         {
             Console.WriteLine("Command run: " + e.Request.Type + " by " + e.Source.Name);
         }

@@ -33,7 +33,7 @@ namespace BotBits.Commands
         {
             return request;
         }
-        
+
         protected internal virtual void OnAdd(BotBitsClient client, Command command)
         {
         }

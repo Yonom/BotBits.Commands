@@ -34,6 +34,14 @@ namespace BotBits.Commands
             }
         }
 
+        public void Dispose()
+        {
+            foreach (var command in this)
+            {
+                this.Remove(command);
+            }
+        }
+
         /// <summary>
         ///     Returns an enumerator that iterates through the collection.
         /// </summary>
@@ -254,14 +262,6 @@ namespace BotBits.Commands
             lock (this._lockObj)
             {
                 return this._commands.TryGetValue(name, out command);
-            }
-        }
-
-        public void Dispose()
-        {
-            foreach (var command in this)
-            {
-                this.Remove(command);
             }
         }
     }
