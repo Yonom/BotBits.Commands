@@ -4,6 +4,11 @@ namespace BotBits.Commands
 {
     public sealed class CommandsExtension : Extension<CommandsExtension>
     {
+        [Obsolete("Invalid to use \"new\" on this class. Use the static .Of(botBits) method instead.", true)]
+        public CommandsExtension()
+        {
+        }
+
         protected override void Initialize(BotBitsClient client, object args)
         {
             var settings = (Settings)args;
