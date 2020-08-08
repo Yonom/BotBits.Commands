@@ -1,15 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotBits.Commands", "BotBits.Commands\BotBits.Commands.csproj", "{75B4FC09-ACB2-4CFF-8759-69555C717125}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotBits.Commands.Demo", "BotBits.Commands.Demo\BotBits.Commands.Demo.csproj", "{E8AC34C0-8A2F-4D3C-97EE-AD0A7313A22B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{69104D07-D568-45A4-831A-18FC3F24E01C}"
-EndProject
-Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "BotBits.Commands", "Nuget\BotBits.Commands\BotBits.Commands.nuproj", "{D2133FC1-5CB2-417F-9CB5-2C71C7B13629}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,15 +21,11 @@ Global
 		{E8AC34C0-8A2F-4D3C-97EE-AD0A7313A22B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8AC34C0-8A2F-4D3C-97EE-AD0A7313A22B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8AC34C0-8A2F-4D3C-97EE-AD0A7313A22B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D2133FC1-5CB2-417F-9CB5-2C71C7B13629}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D2133FC1-5CB2-417F-9CB5-2C71C7B13629}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D2133FC1-5CB2-417F-9CB5-2C71C7B13629}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D2133FC1-5CB2-417F-9CB5-2C71C7B13629}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{D2133FC1-5CB2-417F-9CB5-2C71C7B13629} = {69104D07-D568-45A4-831A-18FC3F24E01C}
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1E7B324A-0324-4764-8DC6-794FB665BE15}
 	EndGlobalSection
 EndGlobal

@@ -110,11 +110,11 @@ namespace BotBits.Commands
         private void OnPrivateMessage(PrivateMessageEvent e)
         {
             if (!this.ListeningBehavior.HasFlag(ListeningBehavior.PrivateMessage)) return;
-            if (e.Message.Length == 0) return;
+            if (e.Message.Length == 0 || !e.Incoming) return;
 
             if (this.CommandPrefixes.Contains(e.Message[0]))
             {
-                var player = Players.Of(this.BotBits).FromUsername(e.Username).FirstOrDefault();
+                var player = e.Player;
                 if (player == null) return;
 
                 var cmd = new ParsedRequest(e.Message.Substring(1));
